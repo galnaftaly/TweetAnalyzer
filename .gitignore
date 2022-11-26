@@ -7,4 +7,5 @@ backend/BGSRD/data/corpus/*labels*
 backend/BGSRD/data/corpus/*shuffle*
 backend/BGSRD/data/corpus/*vocab*
 __pycache__
+node_modules
 
