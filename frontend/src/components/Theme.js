@@ -63,13 +63,6 @@ const theme = createTheme({
       color: `${ourGrey}`,
       lineHeight: 1.25,
     },
-    /*body1: {
-      fontWeight: 'bold',
-      fontSize: '1.75rem',
-    },
-    body2: {
-      fontSize: '1.5rem',
-    },*/
   },
 });
 

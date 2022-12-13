@@ -1,72 +1,51 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-import { Box } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 
 const COLORS = ['#8884d8', '#82ca9d', '#FFBB28', '#FF8042', '#AF19FF'];
-const pieData = [
-  {
-    name: 'Apple',
-    value: 54.85,
-  },
-  {
-    name: 'Samsung',
-    value: 47.91,
-  },
-  {
-    name: 'Redmi',
-    value: 16.85,
-  },
-  {
-    name: 'One Plus',
-    value: 16.14,
-  },
-  {
-    name: 'Others',
-    value: 10.25,
-  },
-];
-function CustomTooltip(active, payload, label) {
-  return (
-    <div
-      className="custom-tooltip"
-      style={{
-        backgroundColor: '#ffff',
-        padding: '5px',
-        border: '1px solid #cccc',
-      }}
-    >
-      <label>{`${payload[0].name} : ${payload[0].value}%`}</label>
-    </div>
-  );
+function getPieData(tweets) {
+  var countFakeNews = 0;
+  var countTrueNews = 0;
+  tweets.forEach((tweet) => {
+    if (tweet.class === 'Fake News') countFakeNews += 1;
+    else if (tweet.class === 'True News') countTrueNews += 1;
+  });
+  var pieData = [
+    { name: 'Fake News', count: countFakeNews },
+    { name: 'True News', count: countTrueNews },
+  ];
+  return pieData;
 }
 
 const OurPieChart = (props) => {
+  const pieData = getPieData(props.tweets);
 
-  const {tweets} = props
   return (
-    <Box justifyContent="center" align="center">
-      <PieChart width={730} height={300}>
-        <Pie
-          data={pieData}
-          color="#000000"
-          dataKey="value"
-          nameKey="name"
-          //dataKey="accuracy"
-          //nameKey={`Tweet ${tweets.index + 1}`}
-          cx="50%"
-          cy="50%"
-          outerRadius={120}
-          fill="#8884d8"
-        >
-          {pieData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip element={<CustomTooltip />} />
-        <Legend />
-      </PieChart>
-    </Box>
+    <Card>
+      <CardContent>
+        <PieChart width={430} height={300}>
+          <Pie
+            data={pieData}
+            color="#000000"
+            dataKey="count"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={120}
+            fill="#8884d8"
+          >
+            {pieData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+          <Tooltip contentStyle={{ fontFamily: 'Roboto' }} />
+          <Legend wrapperStyle={{ fontFamily: 'Roboto' }} />
+        </PieChart>
+      </CardContent>
+    </Card>
   );
 };
 export default OurPieChart;
-//backgroundColor: ['#003f5c', '#58508d', '#bc5090', '#ff6361', '#ffa600'],

@@ -22,9 +22,9 @@ const ResultsGrid = (props) => {
       headerName: 'Tweet',
       type: 'int',
       width: 300,
-      editable: true,
+      editable: false,
       headerClassName: 'super-app-theme--header',
-      renderCell: (params: any) => (
+      renderCell: (params) => (
         <Tooltip title={params.value}>
           <span>{params.value}</span>
         </Tooltip>
@@ -35,7 +35,7 @@ const ResultsGrid = (props) => {
       headerName: 'Classification',
       type: 'str',
       width: 350,
-      editable: true,
+      editable: false,
       headerClassName: 'super-app-theme--header',
     },
     {
@@ -43,7 +43,7 @@ const ResultsGrid = (props) => {
       headerName: 'Accuracy',
       type: 'float',
       width: 300,
-      editable: true,
+      editable: false,
       headerClassName: 'super-app-theme--header',
     },
   ];

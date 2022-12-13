@@ -1,6 +1,7 @@
 import React from 'react';
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid, Tooltip } from '@mui/material';
 import OurPieChart from '../OurPieChart';
+import OurBarChart from '../OurBarChart';
 import ResultsGrid from '../ResultsGrid';
 
 const DashboardPage = () => {
@@ -33,12 +34,49 @@ const DashboardPage = () => {
         variant="h3"
         justifyContent="center"
         align="center"
-        sx={{ m: 2 }}
+        sx={{ mb: 7 }}
       >
         Dashboard
       </Typography>
-      <OurPieChart tweets={dummy_rows} />
-      <ResultsGrid tweets={dummy_rows}/>
+      <Grid container justifyContent="center">
+        <Grid item>
+          <Tooltip
+            title="Average accuracy for each class"
+            placement="top"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  fontSize: 16,
+                  width: '100%',
+                },
+              },
+            }}
+          >
+            <span>
+              <OurBarChart tweets={dummy_rows} />
+            </span>
+          </Tooltip>
+        </Grid>
+        <Grid item>
+          <Tooltip
+            title="Number of tweets for each class"
+            placement="top"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  fontSize: 16,
+                  width: '100%',
+                },
+              },
+            }}
+          >
+            <span>
+              <OurPieChart tweets={dummy_rows} />
+            </span>
+          </Tooltip>
+        </Grid>
+      </Grid>
+      <ResultsGrid tweets={dummy_rows} />
     </Grid>
   );
 };
