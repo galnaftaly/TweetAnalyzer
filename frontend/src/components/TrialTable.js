@@ -3,31 +3,25 @@ import { TextField, Typography } from "@mui/material";
 import { nanoid } from "nanoid";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
-import data from "../mock-data.json";
 import { styled } from "@mui/material/styles";
-import { borders } from '@mui/system';
 import Paper from '@mui/material/Paper';
-
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import {
-  Box,
   TableContainer,
   Button,
-  Snackbar,
   Table,
   TableBody,
   TableHead,
   TableRow,
+  Box
 } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-
-//import { makeStyles } from "@mui/styles";
-
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { Container } from "@mui/system";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "grey",
+    backgroundColor: theme.palette.common.blue,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -35,8 +29,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const TrialTable = () => {
-  const [tweets, setTweets] = useState(data);
+const TrialTable = (props) => {
+  const [tweets, setTweets] = useState([]);
   const [addFormData, setAddFormData] = useState({
     tweetText: "",
   });
@@ -125,21 +119,26 @@ const TrialTable = () => {
 
     setTweets(newTweets);
   };
+  const sendingTweetsTable=()=>{
+    props.setTweetTable(tweets)
+
+  };
 
   return (
-    <Container
+    <Box
       spacing={1}
       direction="column"
-      alignItems="center"
-      justifyContent="center"
-      style={{ minHeight: "100vh" }}
+      align="center"
+      
+      sx={{minHeight: "100vh", m:"2"}}
+  
     >
-      <form onSubmit={handleEditFormSubmit}>
-        <TableContainer component={Paper} sx={{  maxHeight: 600 , width:1000   }} align="center" justifyContent="center">
-          <Table sx={{width:"max-content" ,minWidth: 1000, maxWidth:1000 , borderCollapse:"collapse" }}  stickyHeader={true} aria-label="customized table">
+      < form onSubmit={handleEditFormSubmit}>
+        <TableContainer component={Paper} sx={{  maxHeight: 600 , width:1000   }}>
+          <Table sx={{width:"max-content" ,minWidth: 1000, maxWidth:1000 , borderCollapse:"collapse"  }}   stickyHeader={true} aria-label="customized table">
             <TableHead sx={{ display: 'table-header-group' }}>
-              <TableRow sx={{width:"max-content",border:1, borderColor:"black", maxWidth:100}}>
-                <StyledTableCell align="left" sx={{ fontSize: "h5.fontSize" , border:1}}>
+              <TableRow >
+                <StyledTableCell align="left" sx={{ fontSize: "h5.fontSize" , border:1, borderColor: 'primary.main' }}>
                   Tweets Content
                 </StyledTableCell>
                 <StyledTableCell
@@ -174,13 +173,12 @@ const TrialTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </form>
+      </ form>
 
       
       <Container
       spacing={1}
       direction="column"
-      alignItems="center"
       justifyContent="center"
       style={{ minHeight: "100vh" }}
     >
@@ -188,30 +186,37 @@ const TrialTable = () => {
         variant="h4"
         justifyContent="center"
         align="center"
-        sx={{ m: 2 }}
+        sx={{ m: 3 }}
       >
         Add a new Tweet:
       </Typography>
-      <form onSubmit={handleAddFormSubmit}>
+      < form onSubmit={handleAddFormSubmit}>
         <TextField
           align="center"
-          alignItems="center"
           id="standard-basic"
+          autoFocus={true}
+          margin="normal"
           variant="standard"
           type="text"
+          multiline={true}
           name="tweetText"
-          required="required"
+          required
+          sx={{width:700}}
           label="Enter a Text from tweet..."
           onChange={handleAddFormChange}
         />
 
-        <Button variant="contained" endIcon={<AddBoxIcon />} type="submit">
+        <Button  endIcon={<AddBoxIcon />} type="submit">
           Add
         </Button>
-      
-      </form>
+        <Box marginTop={5}>
+      <Button size="large" variant="contained" color="success" onClick={sendingTweetsTable}  endIcon={<ContentPasteGoIcon />} >
+          Analyze
+        </Button>
+        </Box>
+      </ form>
       </Container>
-    </Container>
+    </Box>
   );
 };
 

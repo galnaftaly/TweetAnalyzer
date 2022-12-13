@@ -1,17 +1,23 @@
 import React from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
-
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
 import {
-  Box,
-  TableContainer,
   Button,
-  Snackbar,
-  Table,
-  TableBody,
-  TableHead,
   TableRow,
 } from "@mui/material";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.blue,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+    border:"1pt solid black"
+  },
+}));
 
 const EditableRow = ({
   editFormData,
@@ -19,8 +25,8 @@ const EditableRow = ({
   handleCancelClick,
 }) => {
   return (
-    <tr>
-      <td border='2px solid black'>
+    <TableRow>
+      <StyledTableCell >
         <input
           type="text"
           required="required"
@@ -29,9 +35,9 @@ const EditableRow = ({
           value={editFormData.TweetText}
           onChange={handleEditFormChange}
         ></input>
-      </td>
+      </StyledTableCell>
 
-      <td>
+      <StyledTableCell align="center">
         <Button type="submit" variant="contained" endIcon={<SaveIcon />}>
           Save
         </Button>
@@ -43,8 +49,8 @@ const EditableRow = ({
         >
           Cancel
         </Button>
-      </td>
-    </tr>
+      </StyledTableCell>
+    </TableRow>
   );
 };
 

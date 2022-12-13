@@ -12,11 +12,12 @@ import TrainPage from './components/pages/TrainPage';
 
 const App = () => {
   const [value, setValue] = useState(0);
+  const [tweetTable , setTweetTable]=useState([{}])
   const routes = [
     { path: '/', component: <LandingPage /> },
     { path: '/train', component: <TrainPage /> },
-    { path: '/tweets', component: <TweetsPage /> },
-    { path: '/dashboard', component: <DashboardPage /> },
+    { path: '/tweets', component: <TweetsPage setTweetTable={setTweetTable} /> },
+    { path: '/dashboard', component: <DashboardPage  /> },
     { path: '/about', component: <AboutPage /> },
   ];
 

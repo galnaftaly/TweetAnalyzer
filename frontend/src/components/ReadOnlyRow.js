@@ -1,31 +1,35 @@
 import React from "react";
-import CreateIcon from "@mui/icons-material/Create";
 import EditIcon from "@mui/icons-material/Edit";
-import { borders } from '@mui/system';
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
-  Box,
-  TableContainer,
   Button,
-  Snackbar,
-  Table,
-  TableBody,
-  TableHead,
   TableRow,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import DoneIcon from "@mui/icons-material/Done";
-import ClearIcon from "@mui/icons-material/Clear";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.blue,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+      border:"1pt solid black"
+      
+    },
+  }));
 
 const ReadOnlyRow = ({ tweet, handleEditClick, handleDeleteClick }) => {
   return (
-    <tr sx={{border:"1pt solid black"}}>
-      <td>{tweet.tweetText}</td>
+    <TableRow sx={{width:"700",maxWidth:"700",minWidth:"700",border:"1pt solid black"}}>
+      <StyledTableCell sx={{ overflow:"hidden" ,border:"1pt solid black"}}><div style={{overflowX:"auto",height:"50px",maxHeight:"100",minHeight:"100"}}>{tweet.tweetText}</div></StyledTableCell>
 
-      <td>
+      <StyledTableCell sx={{border:"1pt solid black"}}>
+        <div align="center" style={{ margin:"2"}}>
         <Button
           type="button"
-          variant="contained"
+           variant="contained"
           endIcon={<EditIcon />}
           onClick={(event) => handleEditClick(event, tweet)}
         >
@@ -39,8 +43,9 @@ const ReadOnlyRow = ({ tweet, handleEditClick, handleDeleteClick }) => {
         >
           Delete
         </Button>
-      </td>
-    </tr>
+        </div>
+      </StyledTableCell>
+    </TableRow>
   );
 };
 
