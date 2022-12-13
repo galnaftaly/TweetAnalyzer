@@ -13,7 +13,7 @@ const Footer = (props) => {
   return (
     <footer>
       <Container sx={styles.footer} maxWidth={false} disableGutters>
-        <Typography variant="h5" color="white">
+        <Typography variant="body1" color="white">
           Copyright © Tweet Analyzer 2022. All rights reserved
         </Typography>
       </Container>

@@ -11,7 +11,7 @@ const LandingPage = (props) => {
       borderRadius: 5,
     },
     mainContainer: {
-      mt: '5em',
+      my: '5em',
     },
     textContainer: {
       ml: '1em',

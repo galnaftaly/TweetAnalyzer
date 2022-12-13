@@ -40,7 +40,9 @@ function CustomTooltip(active, payload, label) {
   );
 }
 
-const OurPieChart = () => {
+const OurPieChart = (props) => {
+
+  const {tweets} = props
   return (
     <Box justifyContent="center" align="center">
       <PieChart width={730} height={300}>
@@ -49,6 +51,8 @@ const OurPieChart = () => {
           color="#000000"
           dataKey="value"
           nameKey="name"
+          //dataKey="accuracy"
+          //nameKey={`Tweet ${tweets.index + 1}`}
           cx="50%"
           cy="50%"
           outerRadius={120}

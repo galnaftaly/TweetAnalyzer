@@ -20,6 +20,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontSize: 12,
     tab: {
       fontWeight: 500,
       fontFamily: 'Raleway',
@@ -45,15 +46,30 @@ const theme = createTheme({
     },
     h4: {
       fontFamily: 'Raleway',
-      fontSize: '1.75rem',
+      fontSize: '2.75rem',
       color: `${ourBlue}`,
       fontWeight: 700,
     },
     h5: {
       fontFamily: 'Arial',
-      fontSize: '1rem',
-      lineHeight: 2,
+      fontSize: 22,
+      //lineHeight: 2,
+      fontWeight: 600,
     },
+    h6: {
+      fontFamily: 'Raleway',
+      fontWeight: 700,
+      fontSize: '2.5rem',
+      color: `${ourGrey}`,
+      lineHeight: 1.25,
+    },
+    /*body1: {
+      fontWeight: 'bold',
+      fontSize: '1.75rem',
+    },
+    body2: {
+      fontSize: '1.5rem',
+    },*/
   },
 });
 
