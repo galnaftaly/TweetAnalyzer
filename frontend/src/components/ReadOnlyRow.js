@@ -1,6 +1,7 @@
 import React from "react";
 import CreateIcon from "@mui/icons-material/Create";
 import EditIcon from "@mui/icons-material/Edit";
+import { borders } from '@mui/system';
 import {
   Box,
   TableContainer,
@@ -18,7 +19,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 const ReadOnlyRow = ({ tweet, handleEditClick, handleDeleteClick }) => {
   return (
-    <tr>
+    <tr sx={{border:"1pt solid black"}}>
       <td>{tweet.tweetText}</td>
 
       <td>

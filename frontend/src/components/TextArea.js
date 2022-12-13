@@ -6,8 +6,9 @@ const TextArea = () => {
     <TextareaAutosize
       aria-label="minimum height"
       minRows={3}
+      maxRows={20}
       placeholder="Type here the text of the tweet.."
-      style={{ width: 700 }}
+      style={{ width: 200 }}
     />
   );
 };

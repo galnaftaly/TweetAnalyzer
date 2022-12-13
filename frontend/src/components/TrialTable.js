@@ -5,6 +5,9 @@ import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 import data from "../mock-data.json";
 import { styled } from "@mui/material/styles";
+import { borders } from '@mui/system';
+import Paper from '@mui/material/Paper';
+
 import {
   Box,
   TableContainer,
@@ -125,40 +128,42 @@ const TrialTable = () => {
 
   return (
     <Container
-      spacing={0}
+      spacing={1}
       direction="column"
       alignItems="center"
       justifyContent="center"
       style={{ minHeight: "100vh" }}
     >
       <form onSubmit={handleEditFormSubmit}>
-        <TableContainer align="center" justifyContent="center">
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead sx={{ display: "table-header-group" }}>
-              <TableRow>
-                <StyledTableCell align="left" sx={{ fontSize: "h5.fontSize" }}>
+        <TableContainer component={Paper} sx={{  maxHeight: 600 , width:1000   }} align="center" justifyContent="center">
+          <Table sx={{width:"max-content" ,minWidth: 1000, maxWidth:1000 , borderCollapse:"collapse" }}  stickyHeader={true} aria-label="customized table">
+            <TableHead sx={{ display: 'table-header-group' }}>
+              <TableRow sx={{width:"max-content",border:1, borderColor:"black", maxWidth:100}}>
+                <StyledTableCell align="left" sx={{ fontSize: "h5.fontSize" , border:1}}>
                   Tweets Content
                 </StyledTableCell>
                 <StyledTableCell
                   align="left"
                   width="230"
-                  sx={{ fontSize: "h5.fontSize" }}
+                  sx={{border:1,borderColor: 'primary.main' , fontSize: "h5.fontSize" }}
                 >
                   Actions
                 </StyledTableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody >
               {tweets.map((tweet) => (
                 <Fragment>
                   {editTweetId === tweet.id ? (
                     <EditableRow
+                   
                       editFormData={editFormData}
                       handleEditFormChange={handleEditFormChange}
                       handleCancelClick={handleCancelClick}
                     />
                   ) : (
                     <ReadOnlyRow
+                   
                       tweet={tweet}
                       handleEditClick={handleEditClick}
                       handleDeleteClick={handleDeleteClick}
@@ -171,6 +176,14 @@ const TrialTable = () => {
         </TableContainer>
       </form>
 
+      
+      <Container
+      spacing={1}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: "100vh" }}
+    >
       <Typography
         variant="h4"
         justifyContent="center"
@@ -195,7 +208,9 @@ const TrialTable = () => {
         <Button variant="contained" endIcon={<AddBoxIcon />} type="submit">
           Add
         </Button>
+      
       </form>
+      </Container>
     </Container>
   );
 };

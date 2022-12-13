@@ -20,7 +20,7 @@ const EditableRow = ({
 }) => {
   return (
     <tr>
-      <td>
+      <td border='2px solid black'>
         <input
           type="text"
           required="required"
