@@ -1,6 +1,7 @@
-import React from 'react';
-import { Box, Tooltip } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Alert, Typography } from '@mui/material';
 import { DataGrid, GridToolbar, useGridApiRef } from '@mui/x-data-grid';
+import ClickAwayListener from '@mui/base/ClickAwayListener';
 
 const ResultsGrid = (props) => {
   const styles = {
@@ -24,11 +25,6 @@ const ResultsGrid = (props) => {
       width: 300,
       editable: false,
       headerClassName: 'super-app-theme--header',
-      renderCell: (params) => (
-        <Tooltip title={params.value}>
-          <span>{params.value}</span>
-        </Tooltip>
-      ),
     },
     {
       field: 'subject',
@@ -49,19 +45,47 @@ const ResultsGrid = (props) => {
   ];
 
   const apiRef = useGridApiRef();
+  const [selectedRow, setSelectedRow] = useState({});
+  const [expandRow, setExpandRow] = useState(false);
+
+  const handleRowClick = (params) => {
+    setExpandRow(true);
+    setSelectedRow(params.row);
+  };
+
+  const ExpandableRowContent = () => {
+    return (
+      <Typography variant="body1" align="left" sx={{ fontSize: 16 }}>
+        Tweet {selectedRow.id} Content:
+        <br />"{selectedRow.content}"
+      </Typography>
+    );
+  };
 
   return (
-    <Box align="center" sx={styles.box}>
-      <DataGrid
-        sx={{ fontSize: 16 }}
-        rows={props.tweets}
-        columns={columns}
-        apiRef={apiRef}
-        disableSelectionOnClick
-        components={{ Toolbar: GridToolbar }}
-        experimentalFeatures={{ newEditingApi: true }}
-      />
-    </Box>
+    <ClickAwayListener onClickAway={() => setExpandRow(false)}>
+      <Box align="center" sx={styles.box}>
+        <DataGrid
+          sx={{
+            boxShadow: 2,
+            border: 2,
+            borderColor: 'primary.light',
+            fontSize: 16,
+          }}
+          rows={props.tweets}
+          columns={columns}
+          apiRef={apiRef}
+          disableSelectionOnClick
+          components={{ Toolbar: GridToolbar }}
+          onRowClick={handleRowClick}
+        />
+        {expandRow && (
+          <Alert severity="info">
+            <ExpandableRowContent />
+          </Alert>
+        )}
+      </Box>
+    </ClickAwayListener>
   );
 };
 
