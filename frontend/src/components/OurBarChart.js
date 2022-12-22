@@ -18,10 +18,10 @@ function getBarData(tweets) {
   var countFakeNews = 0;
   var countTrueNews = 0;
   tweets.forEach((tweet) => {
-    if (tweet.class === 'Fake News') {
+    if (tweet.subject === 'Fake News') {
       sumFakeNews += tweet.accuracy;
       countFakeNews += 1;
-    } else if (tweet.class === 'True News') {
+    } else if (tweet.subject === 'True News') {
       sumTrueNews += tweet.accuracy;
       countTrueNews += 1;
     }

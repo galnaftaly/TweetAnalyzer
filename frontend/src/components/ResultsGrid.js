@@ -31,7 +31,7 @@ const ResultsGrid = (props) => {
       ),
     },
     {
-      field: 'class',
+      field: 'subject',
       headerName: 'Classification',
       type: 'str',
       width: 350,

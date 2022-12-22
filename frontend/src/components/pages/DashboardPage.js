@@ -4,19 +4,20 @@ import OurPieChart from '../OurPieChart';
 import OurBarChart from '../OurBarChart';
 import ResultsGrid from '../ResultsGrid';
 
-const DashboardPage = () => {
-  const dummy_rows = [
-    { id: 1, class: 'Fake News', accuracy: 59.1, content: 'first tweet' },
-    { id: 2, class: 'Fake News', accuracy: 68.4, content: 'second tweet' },
-    { id: 3, class: 'True News', accuracy: 75.0, content: 'third tweet' },
-    { id: 4, class: 'Fake News', accuracy: 89.7, content: 'blalalalg' },
-    {
-      id: 5,
-      class: 'True News',
-      accuracy: 78.4,
-      content: 'fjgkdjlofjfsgdgdhdg',
-    },
-  ];
+const DashboardPage = (props) => {
+  const dummy_rows=props.analyze
+  // const dummy_rows = [
+  //   { id: 1, class: 'Fake News', accuracy: 59.1, content: 'first tweet' },
+  //   { id: 2, class: 'Fake News', accuracy: 68.4, content: 'second tweet' },
+  //   { id: 3, class: 'True News', accuracy: 75.0, content: 'third tweet' },
+  //   { id: 4, class: 'Fake News', accuracy: 89.7, content: 'blalalalg' },
+  //   {
+  //     id: 5,
+  //     class: 'True News',
+  //     accuracy: 78.4,
+  //     content: 'fjgkdjlofjfsgdgdhdg',
+  //   },
+  // ];
 
   const styles = {
     mainContainer: {

@@ -7,8 +7,8 @@ function getPieData(tweets) {
   var countFakeNews = 0;
   var countTrueNews = 0;
   tweets.forEach((tweet) => {
-    if (tweet.class === 'Fake News') countFakeNews += 1;
-    else if (tweet.class === 'True News') countTrueNews += 1;
+    if (tweet.subject === 'Fake News') countFakeNews += 1;
+    else if (tweet.subject === 'True News') countTrueNews += 1;
   });
   var pieData = [
     { name: 'Fake News', count: countFakeNews },

@@ -1,4 +1,5 @@
 backend/BGSRD/.venv
+backend/env
 backend/BGSRD/checkpoint
 backend/BGSRD/data/*.*.*
 backend/BGSRD/data/*shuffle*
