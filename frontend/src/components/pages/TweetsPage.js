@@ -1,46 +1,34 @@
-
-import React, { useEffect } from "react";
-import { Typography, Grid } from "@mui/material";
-import TrialTable from "../TrialTable";
+import React, { useEffect, useState } from 'react';
+import { Typography, Grid } from '@mui/material';
+import TrialTable from '../TrialTable';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 
 const TweetsPage = (props) => {
+  const [fetch, setFetch] = useState(false);
+  const navigate = useNavigate();
 
-  //   const fetchTweets = async()=>{
-  //     const data = props.tweetTable
-  //     console.log(JSON.stringify(data))
-  //     const requestOptions = {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(data)
-  //     };
-  //     fetch("http://127.0.0.1:8000/tweets/", requestOptions)
-  //       .then(response => response.json())
-  //       .then(
-  //         res => console.log(res));
-  // }
-
-  const fetchTweets =()=>{
-    axios.post(`http://127.0.0.1:8000/tweets/`,{'data':props.tweetTable} )
-      .then(res => {
-        console.log(res);
-        props.setAnalyze(res.data.analyzdata)
-      }).catch((error)=>{
-        console.log(error)
+  const fetchTweets = () => {
+    axios
+      .post(`http://127.0.0.1:8000/predict`, { data: props.tweetTable })
+      .then((res) => {
+        props.setAnalyze(res.data);
       })
+      .then(() => navigate('/dashboard'))
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
-       fetchTweets()
-  }, [props.setTweetTable, props.tweetTable])
+    if (fetch === true) {
+      fetchTweets();
+    }
+  }, [fetch]);
+
 
   return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-    >
+    <Grid container direction="column" alignItems="center">
       <Typography
         variant="h3"
         justifyContent="center"
@@ -50,7 +38,7 @@ const TweetsPage = (props) => {
       >
         Insert Tweets
       </Typography>
-      <TrialTable setTweetTable={props.setTweetTable} />
+      <TrialTable setTweetTable={props.setTweetTable} setFetch={setFetch} />
     </Grid>
   );
 };

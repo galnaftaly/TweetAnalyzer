@@ -32,7 +32,7 @@ const EditableRow = ({
           required="required"
           placeholder="Enter a tweet text..."
           name="tweetText"
-          value={editFormData.TweetText}
+          value={editFormData.tweetText}
           onChange={handleEditFormChange}
         ></input>
       </StyledTableCell>

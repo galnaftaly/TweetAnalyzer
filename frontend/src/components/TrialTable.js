@@ -1,10 +1,9 @@
-import React, { useState, Fragment } from "react";
-import { TextField, Typography } from "@mui/material";
-import { nanoid } from "nanoid";
-import ReadOnlyRow from "./ReadOnlyRow";
-import EditableRow from "./EditableRow";
-import { styled } from "@mui/material/styles";
-import Paper from '@mui/material/Paper';
+import React, { useState, Fragment } from 'react';
+import { TextField, Typography } from '@mui/material';
+import { nanoid } from 'nanoid';
+import ReadOnlyRow from './ReadOnlyRow';
+import EditableRow from './EditableRow';
+import { styled } from '@mui/material/styles';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import {
   TableContainer,
@@ -13,11 +12,12 @@ import {
   TableBody,
   TableHead,
   TableRow,
-  Box
-} from "@mui/material";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import { Container } from "@mui/system";
+  Box,
+  Container,
+  Paper,
+} from '@mui/material';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,11 +32,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const TrialTable = (props) => {
   const [tweets, setTweets] = useState([]);
   const [addFormData, setAddFormData] = useState({
-    tweetText: "",
+    tweetText: '',
   });
+  const [value, setValue] = useState('');
 
   const [editFormData, setEditFormData] = useState({
-    tweetText: "",
+    tweetText: '',
   });
 
   const [editTweetId, setEditTweetId] = useState(null);
@@ -44,7 +45,8 @@ const TrialTable = (props) => {
   const handleAddFormChange = (event) => {
     event.preventDefault();
 
-    const fieldName = event.target.getAttribute("name");
+    setValue(event.target.value);
+    const fieldName = event.target.getAttribute('name');
     const fieldValue = event.target.value;
 
     const newFormData = { ...addFormData };
@@ -56,7 +58,7 @@ const TrialTable = (props) => {
   const handleEditFormChange = (event) => {
     event.preventDefault();
 
-    const fieldName = event.target.getAttribute("name");
+    const fieldName = event.target.getAttribute('name');
     const fieldValue = event.target.value;
 
     const newFormData = { ...editFormData };
@@ -67,6 +69,7 @@ const TrialTable = (props) => {
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
+    setValue('');
 
     const newTweet = {
       id: nanoid(),
@@ -112,16 +115,14 @@ const TrialTable = (props) => {
 
   const handleDeleteClick = (tweetId) => {
     const newTweets = [...tweets];
-
     const index = tweets.findIndex((tweet) => tweet.id === tweetId);
-
     newTweets.splice(index, 1);
-
     setTweets(newTweets);
   };
-  const sendingTweetsTable=()=>{
-    props.setTweetTable(tweets)
 
+  const sendingTweetsTable = () => {
+    props.setFetch(true);
+    props.setTweetTable(tweets);
   };
 
   return (
@@ -129,40 +130,58 @@ const TrialTable = (props) => {
       spacing={1}
       direction="column"
       align="center"
-      
-      sx={{minHeight: "100vh", m:"2"}}
-  
+      sx={{ minHeight: '100vh', m: '2' }}
     >
-      < form onSubmit={handleEditFormSubmit}>
-        <TableContainer component={Paper} sx={{  maxHeight: 600 , width:1000   }}>
-          <Table sx={{width:"max-content" ,minWidth: 1000, maxWidth:1000 , borderCollapse:"collapse"  }}   stickyHeader={true} aria-label="customized table">
+      <form onSubmit={handleEditFormSubmit}>
+        <TableContainer component={Paper} sx={{ maxHeight: 600, width: 1000 }}>
+          <Table
+            sx={{
+              width: 'max-content',
+              minWidth: 1000,
+              maxWidth: 1000,
+              borderCollapse: 'collapse',
+            }}
+            stickyHeader={true}
+            aria-label="customized table"
+          >
             <TableHead sx={{ display: 'table-header-group' }}>
-              <TableRow >
-                <StyledTableCell align="left" sx={{ fontSize: "h5.fontSize" , border:1, borderColor: 'primary.main' }}>
+              <TableRow>
+                <StyledTableCell
+                  align="left"
+                  sx={{
+                    fontSize: 'h5.fontSize',
+                    border: 1,
+                    borderColor: 'primary.main',
+                  }}
+                >
                   Tweets Content
                 </StyledTableCell>
                 <StyledTableCell
                   align="left"
                   width="230"
-                  sx={{border:1,borderColor: 'primary.main' , fontSize: "h5.fontSize" }}
+                  sx={{
+                    border: 1,
+                    borderColor: 'primary.main',
+                    fontSize: 'h5.fontSize',
+                  }}
                 >
                   Actions
                 </StyledTableCell>
               </TableRow>
             </TableHead>
-            <TableBody >
-              {tweets.map((tweet) => (
+            <TableBody>
+              {tweets.map((tweet, index) => (
                 <Fragment>
                   {editTweetId === tweet.id ? (
                     <EditableRow
-                   
                       editFormData={editFormData}
                       handleEditFormChange={handleEditFormChange}
                       handleCancelClick={handleCancelClick}
+                      key={`${tweet.id}${index}`}
                     />
                   ) : (
                     <ReadOnlyRow
-                   
+                      key={`${index}`}
                       tweet={tweet}
                       handleEditClick={handleEditClick}
                       handleDeleteClick={handleDeleteClick}
@@ -173,48 +192,54 @@ const TrialTable = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-      </ form>
+      </form>
 
-      
       <Container
-      spacing={1}
-      direction="column"
-      justifyContent="center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Typography
-        variant="h4"
+        spacing={1}
+        direction="column"
         justifyContent="center"
-        align="center"
-        sx={{ m: 3 }}
+        style={{ minHeight: '100vh' }}
       >
-        Add a new Tweet:
-      </Typography>
-      < form onSubmit={handleAddFormSubmit}>
-        <TextField
+        <Typography
+          variant="h4"
+          justifyContent="center"
           align="center"
-          id="standard-basic"
-          autoFocus={true}
-          margin="normal"
-          variant="standard"
-          type="text"
-          multiline={true}
-          name="tweetText"
-          required
-          sx={{width:700}}
-          label="Enter a Text from tweet..."
-          onChange={handleAddFormChange}
-        />
+          sx={{ m: 3 }}
+        >
+          Add a new Tweet:
+        </Typography>
+        <form onSubmit={handleAddFormSubmit}>
+          <TextField
+            align="center"
+            id="standard-basic"
+            autoFocus={true}
+            margin="normal"
+            variant="standard"
+            type="text"
+            multiline={true}
+            name="tweetText"
+            required
+            sx={{ width: 700 }}
+            label="Enter a Text from tweet..."
+            onChange={handleAddFormChange}
+            value={value}
+          />
 
-        <Button  endIcon={<AddBoxIcon />} type="submit">
-          Add
-        </Button>
-        <Box marginTop={5}>
-      <Button size="large" variant="contained" color="success" onClick={sendingTweetsTable}  endIcon={<ContentPasteGoIcon />} >
-          Analyze
-        </Button>
-        </Box>
-      </ form>
+          <Button endIcon={<AddBoxIcon />} type="submit">
+            Add
+          </Button>
+          <Box marginTop={5}>
+            <Button
+              size="large"
+              variant="contained"
+              color="success"
+              onClick={sendingTweetsTable}
+              endIcon={<ContentPasteGoIcon />}
+            >
+              Analyze
+            </Button>
+          </Box>
+        </form>
       </Container>
     </Box>
   );

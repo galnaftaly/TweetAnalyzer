@@ -21,7 +21,7 @@ const ResultsGrid = (props) => {
     {
       field: 'id',
       headerName: 'Tweet',
-      type: 'int',
+      type: 'str',
       width: 300,
       editable: false,
       headerClassName: 'super-app-theme--header',
@@ -57,7 +57,7 @@ const ResultsGrid = (props) => {
     return (
       <Typography variant="body1" align="left" sx={{ fontSize: 16 }}>
         Tweet {selectedRow.id} Content:
-        <br />"{selectedRow.content}"
+        <br />"{selectedRow.tweetText}"
       </Typography>
     );
   };

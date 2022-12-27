@@ -92,7 +92,7 @@ const OurAppBar = (props) => {
             sx={styles.tabContainer}
             value={props.value}
             onChange={handleChange}
-            textColor="white"
+            textColor="inherit"
             TabIndicatorProps={{
               style: { background: 'white', height: 2 },
             }}
