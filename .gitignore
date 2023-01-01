@@ -1,5 +1,6 @@
 backend/BGSRD/.venv
 backend/env
+backend/BGSRD
 backend/BGSRD/checkpoint
 backend/BGSRD/data/*.*.*
 backend/BGSRD/data/*shuffle*
@@ -7,6 +8,8 @@ backend/BGSRD/data/*vector*
 backend/BGSRD/data/corpus/*labels*
 backend/BGSRD/data/corpus/*shuffle*
 backend/BGSRD/data/corpus/*vocab*
+backend/latest_bgsrd/checkpoint
+backend/latest_bgsrd/data/*
 __pycache__
 node_modules
 
