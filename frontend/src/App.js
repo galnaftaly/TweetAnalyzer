@@ -1,8 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import OurAppBar from './components/OurAppBar';
@@ -16,7 +12,7 @@ import TrainPage from './components/pages/TrainPage';
 
 const App = () => {
   const [value, setValue] = useState(0);
-  const [analyze, setAnalyze] = useState([{}]);
+  const [analyze, setAnalyze] = useState([]);
   const [tweetTable, setTweetTable] = useState([{}]);
 
   const routes = [
@@ -33,7 +29,10 @@ const App = () => {
         />
       ),
     },
-    { path: '/dashboard', component: <DashboardPage analyze={analyze} /> },
+    {
+      path: '/dashboard',
+      component: <DashboardPage analyze={analyze} setValue={setValue} />,
+    },
     { path: '/about', component: <AboutPage /> },
   ];
 

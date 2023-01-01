@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-from typing import Union,List
+from typing import List
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
@@ -28,7 +28,7 @@ class TweetList(BaseModel):
 def predict(tweets: TweetList):
      tweets_list = tweets.data
      df = pd.DataFrame([tweet.dict() for tweet in tweets_list])
-     #predictions = model.predict(df)
+     #predictions = get_predictions()
      df['subject'] = ['Fake News', 'Fake News', 'True News', 'Fake News', 'Fake News']
      df['accuracy'] = [59.1, 68.4, 75.0, 89.7, 93.2]
      df['id'] = [i for i in range(1, len(tweets_list) + 1)]
