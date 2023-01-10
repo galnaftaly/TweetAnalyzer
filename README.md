@@ -3,7 +3,7 @@
 ## Introduction
 
 In this project, we propose BGSRD model, which proposed a symmetric combination between BERT and Text GCN. BGSRD constuct a heterogeneous graph over the dataset
-and represents documents as nodes using BERT representations. By jointly training the BERT and GCN modules within BGSRD, the proposed model is able to leverage the advantages of both worlds: large-scale pretraining which takes the advantage of the massive amount of raw data and transductive learning which jointly learns representations.
+and represents documents as nodes using BERT representations. By jointly training the BERT and GCN modules within BertGCN, the proposed model is able to leverage the advantages of both worlds: large-scale pretraining which takes the advantage of the massive amount of raw data and transductive learning which jointly learns representations.
 
 ## Main Results
 
