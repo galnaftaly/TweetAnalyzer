@@ -26,13 +26,13 @@ class GCN(nn.Module):
         for i in range(n_layers - 1):
             self.layers.append(GraphConv(n_hidden, n_hidden, activation=activation, norm=normalization))
         # output layer
-        self.layers.append(GraphConv(n_hidden, n_classes, norm=normalization))
-        self.dropout = nn.Dropout(p=dropout)
+        self.layers.append(GraphConv(n_hidden, n_classes, norm = normalization))
+        self.dropout = nn.Dropout(p = dropout)
 
     def forward(self, features, g, edge_weight):
         h = features
         for i, layer in enumerate(self.layers):
             if i != 0:
                 h = self.dropout(h)
-            h = layer(g, h, edge_weights=edge_weight)
+            h = layer(g, h, edge_weights = edge_weight)
         return h
