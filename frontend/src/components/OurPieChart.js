@@ -3,22 +3,22 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { Card, CardContent } from '@mui/material';
 
 const COLORS = ['#8884d8', '#82ca9d', '#FFBB28', '#FF8042', '#AF19FF'];
-function getPieData(tweets) {
+function getPieData(props) {
   var countFakeNews = 0;
   var countTrueNews = 0;
-  tweets.forEach((tweet) => {
-    if (tweet.subject === 'Fake News') countFakeNews += 1;
-    else if (tweet.subject === 'True News') countTrueNews += 1;
+  props.tweets.forEach((tweet) => {
+    if (tweet.label === 1) countFakeNews += 1;
+    else if (tweet.label === 0) countTrueNews += 1;
   });
   var pieData = [
-    { name: 'Fake News', count: countFakeNews },
-    { name: 'True News', count: countTrueNews },
+    { name: props.classes[0], count: countTrueNews },
+    { name: props.classes[1], count: countFakeNews },
   ];
   return pieData;
 }
 
 const OurPieChart = (props) => {
-  const pieData = getPieData(props.tweets);
+  const pieData = getPieData(props);
 
   return (
     <Card>

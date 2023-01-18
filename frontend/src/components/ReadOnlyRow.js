@@ -35,7 +35,7 @@ const ReadOnlyRow = ({ tweet, handleEditClick, handleDeleteClick }) => {
             minHeight: '100',
           }}
         >
-          {tweet.tweetText}
+          {tweet.text}
         </div>
       </StyledTableCell>
 

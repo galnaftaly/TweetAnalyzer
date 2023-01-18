@@ -36,7 +36,7 @@ const AboutPage = () => {
     },
     button: (theme) => ({
       fontSize: 22,
-      my: '15px',
+      //my: '5px',
       borderRadius: 3,
       '&:hover': {
         backgroundColor: theme.palette.primary.light,
@@ -57,7 +57,7 @@ const AboutPage = () => {
     return (
       <Grid
         container
-        sx={{ height: '45em' }}
+        sx={{ height: '32em' }}
         alignItems="center"
         justifyContent="center"
       >
@@ -65,7 +65,7 @@ const AboutPage = () => {
           <CardContent>
             <Grid item container direction="column" justifyContent="center">
               <Grid item>
-                <Typography align="center" variant="h4" sx={{ mb: '0.5em' }}>
+                <Typography align="center" variant="h4">
                   Team
                 </Typography>
               </Grid>
@@ -74,13 +74,16 @@ const AboutPage = () => {
                   <Avatar
                     alt="Gal Naftaly"
                     src={gal}
-                    sx={{ width: 200, height: 200, m: 4 }}
+                    sx={{ width: 200, height: 200, m: 2 }}
                   />
                   <Typography align="center" variant="h5">
                     Gal Naftaly
                   </Typography>
-                  <Typography align="center" variant="body1" sx={{fontSize: 18}}>
-                    <br />
+                  <Typography
+                    align="center"
+                    variant="body1"
+                    sx={{ fontSize: 18 }}
+                  >
                     gal.naftaly@e.braude.ac.il
                     <br />
                     Information Systems Engineering Student
@@ -90,13 +93,16 @@ const AboutPage = () => {
                   <Avatar
                     alt="Aviv Meir"
                     src={aviv}
-                    sx={{ width: 200, height: 200, m: 4 }}
+                    sx={{ width: 200, height: 200, m: 2 }}
                   />
                   <Typography align="center" variant="h5">
                     Aviv Meir
                   </Typography>
-                  <Typography align="center" variant="body1" sx={{fontSize: 18}}>
-                    <br />
+                  <Typography
+                    align="center"
+                    variant="body1"
+                    sx={{ fontSize: 18 }}
+                  >
                     aviv.meir@e.braude.ac.il
                     <br />
                     Information Systems Engineering Student
@@ -113,19 +119,14 @@ const AboutPage = () => {
   const Text = () => {
     return (
       <Typography align="center" variant="h4" sx={styles.text}>
-        The application used for two tasks: fake news detection and authorship
-        identification on inserted tweets and outputs the precentege of
-        possibility.
+        The application used for some text analyze tasks:
         <br />
-        For the fake news detection task the precentege represents if the tweet
-        content is true news or fake news.
+        fake news detection and authorship identification, semenatic
+        classification on reviews
         <br />
-        For the authorship identification task the precentege represents if the
-        tweet has been written by human or bot by writing style analysis.
+        You can upload single text or some texts at the same time.
         <br />
-        You can upload single tweet or some tweets at the same time.
-        <br />
-        The application architecture based on BGSRD model.
+        The application architecture based on BertGCN model.
       </Typography>
     );
   };

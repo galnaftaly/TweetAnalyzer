@@ -8,16 +8,17 @@ import LandingPage from './components/pages/LandingPage';
 import DashboardPage from './components/pages/DashboardPage';
 import AboutPage from './components/pages/AboutPage';
 import TweetsPage from './components/pages/TweetsPage';
-import TrainPage from './components/pages/TrainPage';
 
 const App = () => {
   const [value, setValue] = useState(0);
   const [analyze, setAnalyze] = useState([]);
   const [tweetTable, setTweetTable] = useState([{}]);
+  const [task, setTask] = useState('');
+  const [tweets, setTweets] = useState([]);
+  const [dataset, setDataset] = useState('');
 
   const routes = [
     { path: '/', component: <LandingPage /> },
-    { path: '/train', component: <TrainPage /> },
     {
       path: '/tweets',
       component: (
@@ -26,12 +27,25 @@ const App = () => {
           setAnalyze={setAnalyze}
           tweetTable={tweetTable}
           setTweetTable={setTweetTable}
+          task={task}
+          setTask={setTask}
+          tweets={tweets}
+          setTweets={setTweets}
+          setDataset={setDataset}
         />
       ),
     },
     {
       path: '/dashboard',
-      component: <DashboardPage analyze={analyze} setValue={setValue} />,
+      component: (
+        <DashboardPage
+          analyze={analyze}
+          setValue={setValue}
+          setTask={setTask}
+          setTweets={setTweets}
+          dataset={dataset}
+        />
+      ),
     },
     { path: '/about', component: <AboutPage /> },
   ];

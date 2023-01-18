@@ -37,9 +37,10 @@ nb_epochs = args.nb_epochs
 bert_init = args.bert_init
 dataset = args.dataset
 datasets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'datasets')
+data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 #pretrained_bert_ckpt_file = str('./checkpoint/{}_{}/checkpoint.pth'.format(bert_init, dataset))
 #pretrained_bert_ckpt = pretrained_bert_ckpt_file if os.path.isfile(pretrained_bert_ckpt_file) else None
-pretrained_bert_ckpt = None
+pretrained_bert_ckpt = args.pretrained_bert_ckpt
 checkpoint_dir = args.checkpoint_dir
 gcn_layers = args.gcn_layers
 n_hidden = args.n_hidden
@@ -51,7 +52,6 @@ bert_lr = args.bert_lr
 ckpt_dir = './checkpoint/{}_gcn_{}'.format(bert_init, dataset) if checkpoint_dir is None else checkpoint_dir
 os.makedirs(ckpt_dir, exist_ok = True)
 shutil.copy(os.path.basename(__file__), ckpt_dir)
-data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 log_file = os.path.join(ckpt_dir, 'train_bert_gcn.log')
 cpu = th.device('cpu')
 gpu = th.device('cuda:0')
@@ -77,8 +77,6 @@ train_mask, val_mask, test_mask: n-d bool array
 nb_node = features.shape[0]
 nb_train, nb_val, nb_test = train_mask.sum(), val_mask.sum(), test_mask.sum()
 nb_word = nb_node - nb_train - nb_val - nb_test
-print("nb_word")
-print(nb_word)
 nb_class = y_train.shape[1]
 
 # instantiate model according to class number
@@ -93,7 +91,7 @@ if pretrained_bert_ckpt is not None:
 
 df = pd.read_csv(os.path.join(datasets_dir, dataset, '{}.csv'.format(dataset)), index_col = False)
 df.dropna(inplace = True)
-text_list = df.text.to_list() # shuffle_doc_words_list
+text_list = df.text.to_list()
 
 def encode_input(text, tokenizer):
     input = tokenizer(text, max_length = max_length, truncation = True, padding = 'max_length', return_tensors = 'pt')
@@ -136,8 +134,7 @@ idx_loader_train = Data.DataLoader(train_idx, batch_size = batch_size, shuffle =
 idx_loader_val = Data.DataLoader(val_idx, batch_size = batch_size)
 idx_loader_test = Data.DataLoader(test_idx, batch_size = batch_size)
 idx_loader = Data.DataLoader(doc_idx, batch_size = batch_size, shuffle = True)
-#for i, batch in enumerate(idx_loader_test):
-#    print(batch)
+
 
 ################################################################
 #######  ######      #     ###  #     #  ###  #     #   #####   

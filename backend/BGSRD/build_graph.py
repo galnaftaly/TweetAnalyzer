@@ -58,28 +58,7 @@ def calculate_word_doc_frequency(sentences):
             appeared.add(word)
     word_doc_freq = {word : len(doc_list) for word, doc_list in word_doc_list.items()}
     return word_doc_freq
-  
-def create_doc_vectors(size, word_embeddings_dim, sentences, append_to_index): # x, tx, allx
-    row_x, col_x, data_x = [], [], []
-    for i in range(size):
-        doc_vec = np.zeros(word_embeddings_dim)
-        doc_words = sentences[append_to_index + i]
-        words = doc_words.split()
-        for j in range(word_embeddings_dim):
-            row_x.append(i)
-            col_x.append(j)
-            data_x.append(doc_vec[j] / len(words))
-    return sp.csr_matrix((data_x, (row_x, col_x)), shape = (size, word_embeddings_dim))
-   
-def create_one_hot_vectors(start, end, classes, labels):
-    y = []
-    for i in range(start, end):
-        label = labels[i]
-        one_hot = np.zeros(len(classes))
-        label_index = classes.index(label)
-        one_hot[label_index] = 1
-        y.append(one_hot)
-    return np.array(y)
+
 
 def create_doc_word_vectors(vocab_size, word_embeddings_dim, train_size, sentences, labels, classes):
     word_vectors = np.random.uniform(-0.01, 0.01, (vocab_size, word_embeddings_dim))
@@ -264,13 +243,7 @@ def main():
         ally.append(one_hot)
     ally = np.array(ally)
     
-    
-    #x = create_doc_vectors(real_train_size, word_embeddings_dim, sentences, 0)
-    #y = create_one_hot_vectors(0, real_train_size, classes, labels)
-    #tx = create_doc_vectors(test_size, word_embeddings_dim, sentences, train_size)
-    #ty = create_one_hot_vectors(real_train_size, real_train_size + test_size, classes, labels)
-    #allx, ally = create_doc_word_vectors(vocab_size, word_embeddings_dim, train_size, sentences, labels, classes)
-    
+ 
     logger.info("Building document-word heterogeneous graph...")
     windows = calculate_word_occurences(sentences, window_size)
     word_pair_count = calculate_word_pair_count(windows, word_id_map)

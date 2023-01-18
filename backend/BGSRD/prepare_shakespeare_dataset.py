@@ -1,28 +1,23 @@
 import pandas as pd
 import re
 
-#fakes = [
-#    'The Merry Devill of Edmonton by Shakespeare', 
-#    'Fair Em by Shakespeare', 
-#    'The Two Noble Kinsmen by Shakespeare',
-#    'Locrine Mucedorus by Shakespeare',
-#    'The Puritaine Widdow by Shakespeare',
-#    'Sir John Oldcastle by Shakespeare',
-#    'Sir Thomas More by Shakespeare',
-#    'A Yorkshire Tragedy by Shakespeare' 
-#    ]
-#reals = [
-#    'THE TWO GENTLEMEN OF VERONA',
-#    'THE TRAGEDY OF ROMEO AND JULIET',
-#    'THE TRAGEDY OF JULIUS CAESAR',
-#    'THE TRAGEDY OF MACBETH',
-#    'THE TRAGEDY OF OTHELLO MOOR OF VENICE',
-#    'THE TRAGEDY OF KING LEAR'
-#]
-
-reals = []
 fakes = [
-    'The London Prodigal'
+    'The Merry Devill of Edmonton by Shakespeare', 
+    'Fair Em by Shakespeare', 
+    'The Two Noble Kinsmen by Shakespeare',
+    'Locrine Mucedorus by Shakespeare',
+    'The Puritaine Widdow by Shakespeare',
+    'Sir John Oldcastle by Shakespeare',
+    'Sir Thomas More by Shakespeare',
+    'A Yorkshire Tragedy by Shakespeare' 
+    ]
+reals = [
+    'THE TWO GENTLEMEN OF VERONA',
+    'THE TRAGEDY OF ROMEO AND JULIET',
+    'THE TRAGEDY OF JULIUS CAESAR',
+    'THE TRAGEDY OF MACBETH',
+    'THE TRAGEDY OF OTHELLO MOOR OF VENICE',
+    'THE TRAGEDY OF KING LEAR'
 ]
 
 def clean_str(string):
@@ -46,11 +41,10 @@ def preprocess(books, label):
     all_df['label'] = label
     return all_df
 
-#real_df = preprocess(reals, 0)
+real_df = preprocess(reals, 0)
 fake_df = preprocess(fakes, 1)
-#df = pd.concat([real_df, fake_df], axis = 0)
-df = fake_df
-df['type'] = 'test'
+df = pd.concat([real_df, fake_df], axis = 0)
+df['type'] = 'train'
 df = df.sample(frac = 1).reset_index(drop = True)
-df.to_csv('./data/test.csv', index = False)
+df.to_csv('./data/train.csv', index = False)
 

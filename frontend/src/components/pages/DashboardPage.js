@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Grid, Tooltip, Button } from '@mui/material';
 import OurPieChart from '../OurPieChart';
 import OurBarChart from '../OurBarChart';
@@ -21,6 +21,19 @@ const DashboardPage = (props) => {
       },
     }),
   };
+  console.log(props.dataset)
+
+  const classes = {
+    shakespeare: ['Shakespeare', 'Not Shakespeare'],
+    MR: ['Good Review', 'Bad Review'],
+    twitter: ['True News', 'Fake News'],
+  };
+
+  useEffect(() => {
+    props.setTask('')
+    props.setTweets([]);
+
+  })
 
   return (
     <Grid
@@ -38,7 +51,12 @@ const DashboardPage = (props) => {
         Dashboard
       </Typography>
       {props.analyze.length === 0 ? (
-        <Grid container justifyContent="center" alignItems="center" direction="column">
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+        >
           <Grid item>
             <Typography variant="h4" sx={{ color: 'black' }}>
               You must insert tweets before navigate to dashboard page.
@@ -50,7 +68,7 @@ const DashboardPage = (props) => {
               to="/tweets"
               variant="contained"
               sx={styles.button}
-              onClick={() => props.setValue(4)}
+              onClick={() => props.setValue(3)}
               align="center"
             >
               Insert Tweets
@@ -73,7 +91,10 @@ const DashboardPage = (props) => {
               }}
             >
               <span>
-                <OurBarChart tweets={props.analyze} />
+                <OurBarChart
+                  tweets={props.analyze}
+                  classes={classes[props.dataset]}
+                />
               </span>
             </Tooltip>
           </Grid>
@@ -91,11 +112,14 @@ const DashboardPage = (props) => {
               }}
             >
               <span>
-                <OurPieChart tweets={props.analyze} />
+                <OurPieChart
+                  tweets={props.analyze}
+                  classes={classes[props.dataset]}
+                />
               </span>
             </Tooltip>
           </Grid>
-          <ResultsGrid tweets={props.analyze} />
+          <ResultsGrid tweets={props.analyze} classes={classes[props.dataset]} />
         </Grid>
       )}
     </Grid>

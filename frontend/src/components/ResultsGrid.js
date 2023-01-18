@@ -27,7 +27,7 @@ const ResultsGrid = (props) => {
       headerClassName: 'super-app-theme--header',
     },
     {
-      field: 'subject',
+      field: 'label',
       headerName: 'Classification',
       type: 'str',
       width: 350,
@@ -56,11 +56,18 @@ const ResultsGrid = (props) => {
   const ExpandableRowContent = () => {
     return (
       <Typography variant="body1" align="left" sx={{ fontSize: 16 }}>
-        Tweet {selectedRow.id} Content:
-        <br />"{selectedRow.tweetText}"
+        Text {selectedRow.id} Content:
+        <br />"{selectedRow.text}"
       </Typography>
     );
   };
+
+  let rows = props.tweets.map(tweet => {
+    let newLabel = tweet.label
+    if (tweet.label === 0) newLabel = props.classes[0]
+    else if (tweet.label === 1) newLabel = props.classes[1]
+    return {...tweet, label: newLabel}
+  })
 
   return (
     <ClickAwayListener onClickAway={() => setExpandRow(false)}>
@@ -72,7 +79,7 @@ const ResultsGrid = (props) => {
             borderColor: 'primary.light',
             fontSize: 16,
           }}
-          rows={props.tweets}
+          rows={rows}
           columns={columns}
           apiRef={apiRef}
           disableSelectionOnClick

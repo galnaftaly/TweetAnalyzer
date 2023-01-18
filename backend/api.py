@@ -4,6 +4,11 @@ from typing import List
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
+import sys
+import os 
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'BGSRD'))
+from predict import *
 
 app = FastAPI(title="Tweet Analyzer App")
 
@@ -19,20 +24,20 @@ app.add_middleware(
 
 class Tweet(BaseModel):
      id: str 
-     tweetText: str
+     text: str
 
 class TweetList(BaseModel):
-     data:List[Tweet]  
+     data:List[Tweet]
  
 @app.post('/predict')
-def predict(tweets: TweetList):
+def predict(tweets: TweetList, dataset: str):
      tweets_list = tweets.data
      df = pd.DataFrame([tweet.dict() for tweet in tweets_list])
-     #predictions = get_predictions()
-     df['subject'] = ['Fake News', 'Fake News', 'True News', 'Fake News', 'Fake News']
-     df['accuracy'] = [59.1, 68.4, 75.0, 89.7, 93.2]
+     labels, accuracy = get_prediction(df.text.to_list(), dataset)
+     accuracy = [eval(format(acc, '.3f')) for acc in accuracy]
+     df['label'] = labels
+     df['accuracy'] = accuracy
      df['id'] = [i for i in range(1, len(tweets_list) + 1)]
      predictions = df.to_dict(orient="records")
-     print(predictions)
      return predictions
     

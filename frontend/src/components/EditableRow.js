@@ -30,9 +30,9 @@ const EditableRow = ({
         <input
           type="text"
           required="required"
-          placeholder="Enter a tweet text..."
-          name="tweetText"
-          value={editFormData.tweetText}
+          placeholder="Enter a new text..."
+          name="text"
+          value={editFormData.text}
           onChange={handleEditFormChange}
         ></input>
       </StyledTableCell>

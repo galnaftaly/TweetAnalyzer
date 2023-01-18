@@ -1,11 +1,9 @@
 import React, { useState, Fragment } from 'react';
-import { TextField, Typography } from '@mui/material';
-import { nanoid } from 'nanoid';
-import ReadOnlyRow from './ReadOnlyRow';
-import EditableRow from './EditableRow';
-import { styled } from '@mui/material/styles';
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import {
+  TextField,
+  Typography,
+  CircularProgress,
+  Alert,
   TableContainer,
   Button,
   Table,
@@ -16,6 +14,11 @@ import {
   Container,
   Paper,
 } from '@mui/material';
+import { nanoid } from 'nanoid';
+import ReadOnlyRow from './ReadOnlyRow';
+import EditableRow from './EditableRow';
+import { styled } from '@mui/material/styles';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
@@ -30,21 +33,20 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const TrialTable = (props) => {
-  const [tweets, setTweets] = useState([]);
   const [addFormData, setAddFormData] = useState({
-    tweetText: '',
+    text: '',
   });
   const [value, setValue] = useState('');
 
   const [editFormData, setEditFormData] = useState({
-    tweetText: '',
+    text: '',
   });
+  const [alert, setAlert] = useState(false);
 
   const [editTweetId, setEditTweetId] = useState(null);
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
-
     setValue(event.target.value);
     const fieldName = event.target.getAttribute('name');
     const fieldValue = event.target.value;
@@ -73,11 +75,12 @@ const TrialTable = (props) => {
 
     const newTweet = {
       id: nanoid(),
-      tweetText: addFormData.tweetText,
+      text: addFormData.text,
     };
 
-    const newTweets = [...tweets, newTweet];
-    setTweets(newTweets);
+    const newTweets = [...props.tweets, newTweet];
+    props.setTweets(newTweets);
+    setAlert(false);
   };
 
   const handleEditFormSubmit = (event) => {
@@ -85,16 +88,16 @@ const TrialTable = (props) => {
 
     const editedTweet = {
       id: editTweetId,
-      tweetText: editFormData.tweetText,
+      text: editFormData.text,
     };
 
-    const newTweets = [...tweets];
+    const newTweets = [...props.tweets];
 
-    const index = tweets.findIndex((tweet) => tweet.id === editTweetId);
+    const index = props.tweets.findIndex((tweet) => tweet.id === editTweetId);
 
     newTweets[index] = editedTweet;
 
-    setTweets(newTweets);
+    props.setTweets(newTweets);
     setEditTweetId(null);
   };
 
@@ -103,7 +106,7 @@ const TrialTable = (props) => {
     setEditTweetId(tweet.id);
 
     const formValues = {
-      tweetText: tweet.tweetText,
+      text: tweet.text,
     };
 
     setEditFormData(formValues);
@@ -114,15 +117,19 @@ const TrialTable = (props) => {
   };
 
   const handleDeleteClick = (tweetId) => {
-    const newTweets = [...tweets];
-    const index = tweets.findIndex((tweet) => tweet.id === tweetId);
+    const newTweets = [...props.tweets];
+    const index = props.tweets.findIndex((tweet) => tweet.id === tweetId);
     newTweets.splice(index, 1);
-    setTweets(newTweets);
+    props.setTweets(newTweets);
   };
 
   const sendingTweetsTable = () => {
-    props.setFetch(true);
-    props.setTweetTable(tweets);
+    if (props.tweets.length === 0) {
+      setAlert(true);
+    } else {
+      props.setFetch(true);
+      props.setTweetTable(props.tweets);
+    }
   };
 
   return (
@@ -130,7 +137,7 @@ const TrialTable = (props) => {
       spacing={1}
       direction="column"
       align="center"
-      sx={{ minHeight: '100vh', m: '2' }}
+      //sx={{ minHeight: '100vh', m: '2' }}
     >
       <form onSubmit={handleEditFormSubmit}>
         <TableContainer component={Paper} sx={{ maxHeight: 600, width: 1000 }}>
@@ -154,7 +161,9 @@ const TrialTable = (props) => {
                     borderColor: 'primary.main',
                   }}
                 >
-                  Tweets Content
+                  {props.task === 'twitter'
+                    ? 'Tweets Content'
+                    : 'Reviews Content'}
                 </StyledTableCell>
                 <StyledTableCell
                   align="left"
@@ -170,7 +179,7 @@ const TrialTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tweets.map((tweet, index) => (
+              {props.tweets.map((tweet, index) => (
                 <Fragment>
                   {editTweetId === tweet.id ? (
                     <EditableRow
@@ -198,7 +207,7 @@ const TrialTable = (props) => {
         spacing={1}
         direction="column"
         justifyContent="center"
-        style={{ minHeight: '100vh' }}
+        //style={{ minHeight: '100vh' }}
       >
         <Typography
           variant="h4"
@@ -206,7 +215,7 @@ const TrialTable = (props) => {
           align="center"
           sx={{ m: 3 }}
         >
-          Add a new Tweet:
+          {props.task === 'twitter' ? 'Add a new Tweet:' : 'Add a new Review:'}
         </Typography>
         <form onSubmit={handleAddFormSubmit}>
           <TextField
@@ -217,10 +226,15 @@ const TrialTable = (props) => {
             variant="standard"
             type="text"
             multiline={true}
-            name="tweetText"
+            name="text"
             required
             sx={{ width: 700 }}
-            label="Enter a Text from tweet..."
+            label={
+              props.task === 'twitter'
+                ? 'Enter a Text from tweet...'
+                : 'Enter a Text from Review...'
+            }
+            // label="Enter a Text from tweet..."
             onChange={handleAddFormChange}
             value={value}
           />
@@ -228,16 +242,24 @@ const TrialTable = (props) => {
           <Button endIcon={<AddBoxIcon />} type="submit">
             Add
           </Button>
-          <Box marginTop={5}>
+          <Box sx={{ m: 2 }}>
             <Button
               size="large"
               variant="contained"
               color="success"
               onClick={sendingTweetsTable}
               endIcon={<ContentPasteGoIcon />}
+              sx={{ m: 2 }}
             >
               Analyze
             </Button>
+            {alert && (
+              <Alert severity="error">
+                <Typography sx={{ fontSize: 16 }}>
+                  You must insert text to analyze
+                </Typography>
+              </Alert>
+            )}
           </Box>
         </form>
       </Container>

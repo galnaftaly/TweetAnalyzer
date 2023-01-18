@@ -15,12 +15,7 @@ const OurAppBar = (props) => {
       icon: <HomeIcon />,
     },
     {
-      name: 'Train',
-      link: '/train',
-      icon: <SmartToyIcon />,
-    },
-    {
-      name: 'Insert Tweets',
+      name: 'Insert Text',
       link: '/tweets',
       icon: <TwitterIcon />,
     },
@@ -70,14 +65,12 @@ const OurAppBar = (props) => {
   useEffect(() => {
     if (window.location.pathname === '/' && props.value !== 0) {
       props.setValue(0);
-    } else if (window.location.pathname === '/train' && props.value !== 1) {
+    } else if (window.location.pathname === '/tweets' && props.value !== 1) {
       props.setValue(1);
-    } else if (window.location.pathname === '/tweets' && props.value !== 2) {
+    } else if (window.location.pathname === '/dashboard' && props.value !== 2) {
       props.setValue(2);
-    } else if (window.location.pathname === '/dashboard' && props.value !== 3) {
+    } else if (window.location.pathname === '/about' && props.value !== 3) {
       props.setValue(3);
-    } else if (window.location.pathname === '/about' && props.value !== 4) {
-      props.setValue(4);
     }
   }, [props, props.value]);
 
@@ -86,7 +79,7 @@ const OurAppBar = (props) => {
       <AppBar position="fixed">
         <Toolbar disableGutters>
           <Typography variant="h2" noWrap sx={styles.typography}>
-            Tweet Analyzer
+            Text Analyzer
           </Typography>
           <Tabs
             sx={styles.tabContainer}

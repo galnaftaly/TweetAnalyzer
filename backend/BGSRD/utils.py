@@ -49,8 +49,8 @@ def load_corpus(dataset_str):
     features = sp.vstack((allx, tx)).tolil()
     labels = np.vstack((ally, ty))
 
-    datasets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'datasets')
-    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+    datasets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'datasets')
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
     df = pd.read_csv(os.path.join(datasets_dir, dataset_str, '{}.csv'.format(dataset_str)), index_col = False)
     df.dropna(inplace = True)
     

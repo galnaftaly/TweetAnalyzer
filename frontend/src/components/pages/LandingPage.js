@@ -43,10 +43,16 @@ const LandingPage = (props) => {
           alignItems="center"
         >
           <Grid sm item sx={styles.textContainer}>
-            <Typography variant="h2" align="center">
-              Fake News Detection
+            <Typography variant="h2" align="center" sx={{ fontSize: 55 }}>
+              Combat Fake News
               <br />
-              And Authorship Identification
+              Identify Authorship
+              <br />
+              Classify Movie Reviews
+              <br />
+            </Typography>
+            <Typography variant="h2" align="center" sx={{ fontSize: 65 }}>
+              With Our Text Analyzer App
             </Typography>
             <Grid container justifyContent="center" sx={styles.buttonContainer}>
               <Grid display="flex" item>
@@ -55,7 +61,7 @@ const LandingPage = (props) => {
                   to="/about"
                   variant="contained"
                   sx={styles.button}
-                  onClick={() => props.setValue(4)}
+                  onClick={() => props.setValue(3)}
                 >
                   Learn More
                 </Button>

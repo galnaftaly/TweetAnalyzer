@@ -1,4 +1,4 @@
-backend/BGSRD/.venv
+.venv
 backend/env
 backend/BGSRD/checkpoint
 backend/BGSRD/data

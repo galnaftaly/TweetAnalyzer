@@ -12,29 +12,29 @@ import { Card, CardContent } from '@mui/material';
 
 const COLORS = ['#FFBB28', '#FF8042', '#AF19FF', '#8884d8', '#82ca9d'];
 
-function getBarData(tweets) {
+function getBarData(props) {
   var sumFakeNews = 0;
   var sumTrueNews = 0;
   var countFakeNews = 0;
   var countTrueNews = 0;
-  tweets.forEach((tweet) => {
-    if (tweet.subject === 'Fake News') {
+  props.tweets.forEach((tweet) => {
+    if (tweet.label === 1) {
       sumFakeNews += tweet.accuracy;
       countFakeNews += 1;
-    } else if (tweet.subject === 'True News') {
+    } else if (tweet.label === 0) {
       sumTrueNews += tweet.accuracy;
       countTrueNews += 1;
     }
   });
   var barData = [
-    { name: 'Fake News', value: sumFakeNews / countFakeNews },
-    { name: 'True News', value: sumTrueNews / countTrueNews },
+    { name: props.classes[0], value: sumTrueNews / countTrueNews },
+    { name: props.classes[1], value: sumFakeNews / countFakeNews },
   ];
   return barData;
 }
 
 const OurBarChart = (props) => {
-  const barData = getBarData(props.tweets);
+  const barData = getBarData(props);
 
   return (
     <Card>
