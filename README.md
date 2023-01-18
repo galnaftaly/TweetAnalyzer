@@ -7,6 +7,12 @@ and represents documents as nodes using BERT representations. By jointly trainin
 
 ## Main Results
 
+|**Dataset** | **Accuracy** | **Precision** | **Recall** | **F1** |
+| ------------ | ---- | ---- | ---- | ---- |
+| *MR* | 0.8790 | 0.8820 | 0.8790 | 0.8805 |
+| *Shakespeare* | 0.7696 | 0.7574 | 0.7234 | 0.7401 |
+| *Twitter* | 0.8345 | 0.8469 | 0.8164 | 0.8314 |
+
 ## Dependencies
 
 Create virtual environment and install required packages for BGSRD model using pip:
@@ -33,10 +39,10 @@ Run `python train_bert_gcn.py -h` to see the full list of hyperparameters.
 
 ### Run the GUI
 
-1. Run: `cd backend && uvicorn api:app` to start the application server
+1. Run: `cd backend && uvicorn api:app` to start the application server.
 
 2. Run `npm install` to build the dependencies.
 
-3. Run `npm start` to start the development server and open the GUI
+3. Run `npm start` to start the development server and open the GUI.
 
 ## Acknowledgement
