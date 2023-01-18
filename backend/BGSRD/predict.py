@@ -42,24 +42,13 @@ class CPU_Unpickler(pkl.Unpickler):
 
 
 def data_preprocess(documents, nb_word, df, dataset):
-    #with open(os.path.join(checkpoint_dir, 'roberta-base_gcn_{}'.format(dataset), 'idx_pred_dict.pkl'), 'rb') as f:
-    #    idx_pred_dict = pkl.load(f, encoding = 'latin1')
-    #for idx in real_document_idx:
-    #    print("pred") 
-    #    print(idx_pred_dict[idx])
-
     def calc_book_prediction(documents):
         idx = []
-        result_dict = dict.fromkeys(documents, 0)
         for book in documents:
             idx_start = int(df[df['title'] == book].index[0])
             idx_end = int(df[df['title'] == book].index[-1])
             idx.extend([i for i in range(idx_start, idx_end + 1)])
         return idx
-        #    book_size = len(df[df['title'] == book])
-        #    fake_prop = count_fake / book_size
-        #    result_dict[book] = {'label': 1 if fake_prop > 0.5 else 0, 'accuracy': fake_prop if fake_prop > 0.5 else 1 - fake_prop}
-        #return result_dict
 
     real_document_idx = []
     if dataset == 'shakespeare':

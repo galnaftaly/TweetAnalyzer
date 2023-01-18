@@ -7,41 +7,33 @@ import logging
 import pandas as pd
 from utils import *
 from ignite.engine import Events, Engine
-from ignite.metrics import Accuracy, Loss,Precision,Recall
+from ignite.metrics import Accuracy, Loss, Precision, Recall
 from sklearn.metrics import accuracy_score
 from torch.optim import lr_scheduler
 from model import BertClassifier
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--max_length', type=int, default = 128, help='the input length for bert')
-parser.add_argument('--batch_size', type=int, default = 32)
-parser.add_argument('--nb_epochs', type=int, default = 60)
-parser.add_argument('--bert_lr', type=float, default = 1e-3)
+parser.add_argument('--max_length', type = int, default = 128, help = 'the input length for bert')
+parser.add_argument('--batch_size', type = int, default = 64)
+parser.add_argument('--nb_epochs', type = int, default = 10)
+parser.add_argument('--bert_lr', type = float, default = 1e-3)
 parser.add_argument('--dataset', '-d', required = True)
-parser.add_argument('--bert_init', type=str, default='roberta-base',
-                    choices=['roberta-base', 'roberta-large', 'bert-base-uncased', 'bert-large-uncased'])
-parser.add_argument('--checkpoint_dir', default=None, help='checkpoint directory, [bert_init]_[dataset] if not specified')
-
+parser.add_argument('--bert_init', type = str, default = 'roberta-base', choices = ['roberta-base', 'roberta-large', 'bert-base-uncased', 'bert-large-uncased'])
+parser.add_argument('--checkpoint_dir', default = None, help = 'checkpoint directory, [bert_init]_[dataset] if not specified')
 
 args = parser.parse_args()
 
-max_length = 128
-batch_size = 64
-nb_epochs = 10
-bert_lr = 1e-3
-bert_init = 'roberta-base'
-# max_length = args.max_length
-# batch_size = args.batch_size
-# nb_epochs = args.nb_epochs
-# bert_lr = args.bert_lr
-# dataset = args.dataset
-# bert_init = args.bert_init
+max_length = args.max_length # The maximum length (in number of tokens) for the inputs to the transformer model
+batch_size = args.batch_size # The number of training examples utilized in one iteration
+nb_epochs = args.nb_epochs # The number of complete passes through the training dataset
+bert_lr = args.bert_lr # Tuning parameter that determines the step size at each iteration while moving toward a minimum of a loss function
 dataset = args.dataset
+bert_init = args.bert_init # Pretrained BERT model
+checkpoint_dir = args.checkpoint_dir
 datasets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'datasets')
 pretrained_bert_ckpt_file = str('./checkpoint/{}_{}/checkpoint.pth'.format(bert_init, dataset))
 pretrained_bert_ckpt = pretrained_bert_ckpt_file if os.path.isfile(pretrained_bert_ckpt_file) else None
-checkpoint_dir = None
 
 ckpt_dir = './checkpoint/{}_{}'.format(bert_init, dataset) if checkpoint_dir is None else checkpoint_dir
 os.makedirs(ckpt_dir, exist_ok = True)
@@ -67,26 +59,27 @@ train_mask, val_mask, test_mask: n-d bool array
 train_size, test_size: unused
 '''
 
-# compute number of real train/val/test/word nodes and number of classes
+# Compute number of real train/val/test/word nodes and number of classes
 nb_node = adj.shape[0]
 nb_train, nb_val, nb_test = train_mask.sum(), val_mask.sum(), test_mask.sum()
 nb_word = nb_node - nb_train - nb_val - nb_test
 nb_class = y_train.shape[1]
 
-# instantiate model according to class number
+# Instantiate model according to number of classes
 model = BertClassifier(pretrained_model = bert_init, nb_class = nb_class)
 
-# transform one-hot label to class ID for pytorch computation
+# Transform one-hot label to class ID for pytorch computation
 y = th.LongTensor((y_train + y_val + y_test).argmax(axis = 1))
 label = {}
 label['train'], label['val'], label['test'] = y[:nb_train], y[nb_train:nb_train + nb_val], y[-nb_test:]
 
-# load documents and compute input encodings
+# Load documents and compute input encodings
 data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 df = pd.read_csv(os.path.join(datasets_dir, dataset, '{}.csv'.format(dataset)), index_col = False)
 df.dropna(inplace = True)
-text_list = df.text.to_list() # shuffle_doc_words_list
+text_list = df.text.to_list()
 
+# Representation of the text as a numeric vectors - word embedding
 def encode_input(text, tokenizer):
     input = tokenizer(text, max_length = max_length, truncation = True, padding = True, return_tensors = 'pt')
     return input.input_ids, input.attention_mask
@@ -94,7 +87,7 @@ def encode_input(text, tokenizer):
 input_ids, attention_mask = {}, {}
 input_ids_, attention_mask_ = encode_input(text_list, model.tokenizer)
 
-# create train/test/val datasets and dataloaders
+# Create train/test/val datasets and dataloaders
 input_ids['train'], input_ids['val'], input_ids['test'] =  input_ids_[:nb_train], input_ids_[nb_train:nb_train+nb_val], input_ids_[-nb_test:]
 attention_mask['train'], attention_mask['val'], attention_mask['test'] =  attention_mask_[:nb_train], attention_mask_[nb_train:nb_train+nb_val], attention_mask_[-nb_test:]
 
