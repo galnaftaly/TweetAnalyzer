@@ -19,6 +19,11 @@ Create virtual environment and install required packages for BGSRD model using p
 
 `pip install -r requirements.txt`
 
+Build the GUI dependencies using npm:
+
+`npm install`
+
+
 ## Usage
 
 ### Run the model
@@ -39,10 +44,14 @@ Run `python train_bert_gcn.py -h` to see the full list of hyperparameters.
 
 ### Run the GUI
 
-1. Run: `cd backend && uvicorn api:app` to start the application server.
+1. Run: `cd backend`
 
-2. Run `npm install` to build the dependencies.
+2. Run: `uvicorn api:app` to start the application server.
 
-3. Run `npm start` to start the development server and open the GUI.
+Open new termial to run the GUI:
+
+1. Run: `cd frontend/src`
+
+2. Run `npm start` to start the development server.
 
 ## Acknowledgement
