@@ -20,7 +20,7 @@ const ResultsGrid = (props) => {
   const columns = [
     {
       field: 'id',
-      headerName: 'Tweet',
+      headerName: 'Text',
       type: 'str',
       width: 300,
       editable: false,

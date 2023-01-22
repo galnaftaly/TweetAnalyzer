@@ -40,7 +40,6 @@ class CPU_Unpickler(pkl.Unpickler):
         else: return super().find_class(module, name)
 
 
-
 def data_preprocess(documents, nb_word, df, dataset):
     def calc_book_prediction(documents):
         idx = []
@@ -72,7 +71,7 @@ def get_prediction(documents, dataset):
     model.load_state_dict(checkpoint['model'])
     graph_path = os.path.join(os.path.dirname(__file__), 'checkpoint', 'roberta-base_gcn_{}'.format(dataset), 'graph_{}'.format(dataset))
     g = CPU_Unpickler(open(graph_path, "rb")).load()
-    nb_word = 79923 ######### TODO
+    nb_word = load_pickle(os.path.join(os.path.dirname(__file__), 'checkpoint', 'roberta-base_gcn_{}'.format(dataset), 'nb_word_{}'.format(dataset)))
     idx_loader_test = data_preprocess(documents, nb_word, df, dataset)
     all_y_pred = []
     all_accuracy_list = []
@@ -107,5 +106,3 @@ def get_prediction(documents, dataset):
         all_books_pred.append(v['label'])
         all_book_accuracy.append(round(v['accuracy'], 3))
     return all_books_pred, all_book_accuracy 
-    
-

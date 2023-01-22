@@ -20,10 +20,14 @@ reals = [
     'THE TRAGEDY OF KING LEAR'
 ]
 
+dataset = "shakespeare"
+
+
 def clean_str(string):
     string = re.sub(r'[\t\n]', ' ', string)
     string = re.sub(r'\s+', ' ', string)
     return string.strip()
+
 
 
 def preprocess(books, label):
@@ -31,9 +35,13 @@ def preprocess(books, label):
     chunk_size = 128
     for book in books:
         chunks = []
-        with open('./{}.txt'.format(book), mode = 'r') as f:
-            while chunk := f.read(chunk_size):
-                chunks.append(clean_str(chunk))
+        with open('./{}/{}/{}/{}.txt'.format("data", dataset, book), mode = 'r' ,encoding = 'utf-8') as f:
+                data = f.read()
+                while len(data) > chunk_size:
+                    line_length = data[:chunk_size].rfind(' ')
+                    chunks.append(clean_str(data[:line_length]))
+                    data = data[line_length + 1:]
+                chunks.append(data)
         df_real = pd.DataFrame(chunks, columns = ['text'])
         df_real['title'] = book
         all_df.append(df_real)

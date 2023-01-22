@@ -100,7 +100,7 @@ const DashboardPage = (props) => {
           </Grid>
           <Grid item>
             <Tooltip
-              title="Number of tweets for each class"
+              title="Number of documents for each class"
               placement="top"
               componentsProps={{
                 tooltip: {
